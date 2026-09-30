@@ -34,7 +34,7 @@ abrir tres sitios por cada producto. No necesitas cuentas ni claves.
 ## Instalación
 
 ```bash
-git clone https://github.com/<tu-usuario>/price-comparator-cl.git
+git clone https://github.com/dostertags/price-comparator-cl.git
 cd price-comparator-cl
 python -m venv .venv
 source .venv/bin/activate          # Windows (PowerShell): .venv\Scripts\Activate.ps1
