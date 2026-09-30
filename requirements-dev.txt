@@ -1,0 +1,14 @@
+-r requirements.txt
+pytest~=8.4
+pytest-cov>=5,<8
+ruff~=0.16.9
+mypy~=2.3.1
+types-requests
+types-beautifulsoup4
+types-openpyxl
+detect-secrets~=1.5
+bandit~=1.9
+pip-audit>=2.7,<3
+pre-commit>=3.7
+# Solo si usas --mode headless:
+# playwright>=1.44

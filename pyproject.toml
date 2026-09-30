@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "price-comparator-cl"
+version = "0.1.0"
+description = "Compara precios de Sodimac, Falabella y Hites desde un Excel y devuelve la mejor opción."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.32,<3",
+    "beautifulsoup4>=4.12,<5",
+    "lxml>=5.2,<7",
+    "rapidfuzz>=3.9,<4",
+    "openpyxl>=3.1,<4",
+    "defusedxml>=0.7,<1",
+]
+
+[project.optional-dependencies]
+headless = ["playwright>=1.44"]
+
+[project.scripts]
+price-comparator = "price_comparator.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not live' --strict-markers -q"
+pythonpath = ["src", "."]
+markers = [
+    "live: consulta sitios reales; opt-in con -m live",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["src/price_comparator"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:", "\\.\\.\\."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "N", "S", "D"]
+ignore = ["D105", "D107"]  # __init__ y métodos mágicos: los documenta la clase
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S311", "S603", "D"]
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["playwright.*"]
+ignore_missing_imports = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

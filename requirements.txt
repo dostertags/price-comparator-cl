@@ -1,0 +1,6 @@
+requests>=2.32,<3
+beautifulsoup4>=4.12,<5
+lxml>=5.2,<7
+rapidfuzz>=3.9,<4
+openpyxl>=3.1,<4
+defusedxml>=0.7,<1  # openpyxl lo usa solo si está instalado: bloquea bombas de entidades XML

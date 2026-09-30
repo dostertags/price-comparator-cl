@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  - repo: local
+    hooks:
+      # Usan el ruff del entorno (requirements-dev.txt) para coincidir exactamente con CI.
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format
+        language: system
+        types: [python]
+      - id: forbid-private-terms
+        name: sin rutas personales absolutas
+        language: pygrep
+        entry: '(C:\Users\|/home/[a-z]|/Users/[a-z])'
+        types: [text]
+        exclude: '^\.pre-commit-config\.yaml$'

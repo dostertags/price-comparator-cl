@@ -1,0 +1,49 @@
+# --- Secretos ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# --- Entornos ---
+.venv/
+venv/
+env/
+
+# --- Herramientas ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Datos y salidas (solo se permite examples/) ---
+*.xlsx
+!examples/*.xlsx
+*_resultado_*.xlsx
+*.db
+*.db-wal
+*.db-shm
+*.log
+output/
+*.tmp
+
+# --- SO / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+.idea/
+.vscode/
+
+# --- Agentes ---
+.claude/
+

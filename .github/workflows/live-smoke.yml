@@ -1,0 +1,33 @@
+name: Live smoke (detecta cambios de diseño en las tiendas)
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"   # lunes 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt && pip install -e .
+      - name: Tests contra las tiendas reales
+        id: live
+        run: pytest -m live tests/integration -q -rs
+        continue-on-error: true
+      - name: Abrir issue si alguna tienda cambió
+        if: steps.live.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Live smoke falló: revisar scrapers ($(date +%F))" \
+            --body "El workflow programado detectó un fallo. Revisa: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
